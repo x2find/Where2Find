@@ -78,22 +78,6 @@ namespace Tests
             get { return 42; }
         }
 
-        #region Optimizations
-        //[Fact]
-        public void GivenTwoAndedGreaterThanAndALessThanExpressionsForTheSameProperty_ShouldReturnARangeFilterWithMemberAsFieldAndTheLessThanValueAsLowerAndTheGreaterThanValueAsUpper()
-        {
-            var client = new Client("", "");
-
-            var filter = client.WhereFilter<TestData>(x => x.Id > 0 && x.Id < 42);
-
-            filter.Should().BeOfType<RangeFilter<int>>();
-            var rangeFilter = (RangeFilter<int>)filter;
-            rangeFilter.From.Equals(0).Should().BeTrue();
-            rangeFilter.To.Equals(42).Should().BeTrue();
-            rangeFilter.Field.Should().Be(client.GetFieldName<TestData, int>(x => x.Id));
-        }
-        #endregion
-
         #region Supported types to filter by equality
         [Fact]
         public void GivenAnEqualityExpressionWithMemberOnLeftAndStringOnRight_ShouldAddATermFilterWithMemberAsFieldAndStringAsValue()
