@@ -1,0 +1,2 @@
+In order to build Where2Find the NuGet packages that it depends on must be restored.
+See http://docs.nuget.org/docs/workflows/using-nuget-without-committing-packages
