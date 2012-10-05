@@ -212,6 +212,11 @@ namespace Where2Find
                     return GetFieldName(expression, knownToBeLowercase);
                 }
             }
+            var unaryExpression = expression as UnaryExpression;
+            if(unaryExpression != null && unaryExpression.NodeType == ExpressionType.Convert && typeof(Enum).IsAssignableFrom(unaryExpression.Operand.Type))
+            {
+                return GetFieldName(unaryExpression, false);
+            }
             var methodCallExpression = expression as MethodCallExpression;
             if (methodCallExpression != null)
             {
@@ -294,6 +299,10 @@ namespace Where2Find
             else if (value is DateTime)
             {
                 filterValue = (DateTime) value;
+            }
+            else if (value is Enum)
+            {
+                filterValue = (Enum)value;
             }
             else if (value is Type)
             {

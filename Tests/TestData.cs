@@ -11,6 +11,7 @@ namespace Tests
         public double Double { get; set; }
         public bool Bool { get; set; }
         public TestData Another { get; set; }
+        public UriComponents Enum { get; set; } 
     }
 
     public class TestDataSub : TestData

@@ -13,7 +13,6 @@ using Xunit;
 
 //x.Tags.Contains()/Any()
 //Unsupported exceptions
-//x.Enum == Enum.Value
 
 namespace Tests
 {
@@ -162,6 +161,21 @@ namespace Tests
             termFilter.Should().NotBeNull();
             termFilter.Value.Equals(filterValue).Should().BeTrue();
             termFilter.Field.Should().Be(client.GetFieldName<TestData, Double>(x => x.Double));
+        }
+
+        [Fact]
+        public void GivenAnEqualityExpressionWithMemberOnLeftAndEnumOnRight_ShouldAddATermFilterWithMemberAsFieldAndEnumAsIntAsValue()
+        {
+            var client = new Client("", "");
+
+            var filterValue = UriComponents.Host;
+            var filter = client.WhereFilter<TestData>(x => x.Enum == filterValue);
+
+            filter.Should().BeOfType<TermFilter>();
+            var termFilter = (TermFilter)filter;
+            termFilter.Should().NotBeNull();
+            termFilter.Value.Equals((int)filterValue).Should().BeTrue();
+            termFilter.Field.Should().Be(client.GetFieldName<TestData, UriComponents>(x => x.Enum));
         }
         #endregion
 
